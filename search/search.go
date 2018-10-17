@@ -28,6 +28,7 @@ type Parameters struct {
 	NotTagged string
 	InTitle   string
 	Site      string
+	Filter    string
 }
 
 type Response struct {
@@ -68,6 +69,7 @@ type Owner struct {
 
 func Search(ctx context.Context, p Parameters, client *http.Client) (Response, error) {
 	data := p.urlValues()
+
 	r, err := http.NewRequest("GET", urlBuilder(apiSearchEndpoint), strings.NewReader(data.Encode()))
 	if err != nil {
 		return Response{}, err
@@ -106,6 +108,7 @@ func (p *Parameters) urlValues() url.Values {
 	p.set(values, "tagged", p.Tagged)
 	p.set(values, "nottagged", p.NotTagged)
 	p.set(values, "intitle", p.InTitle)
+	p.set(values, "filter", p.Filter)
 	if p.Site == "" {
 		values.Add("site", defaultSite)
 	} else {
