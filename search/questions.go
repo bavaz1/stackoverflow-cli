@@ -11,7 +11,8 @@ import (
 )
 
 func GetQuestionByID(ctx context.Context, id int, p Parameters, client *http.Client) (Response, error) {
-	url := urlBuilder("questions") + "/" + strconv.Itoa(id)
+	const apiAnswersEndpoint = "questions/%d"
+	url := urlBuilder(fmt.Sprintf(apiAnswersEndpoint, id))
 	data := p.urlValues()
 
 	r, err := http.NewRequest("GET", url, strings.NewReader(data.Encode()))
