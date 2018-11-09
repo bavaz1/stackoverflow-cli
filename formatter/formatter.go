@@ -16,27 +16,23 @@ func List(items []search.Item) string {
 	return result
 }
 
-func OneQuestion(item search.Item) string {
+func QuestionSingle(item search.Item) string {
 	var result string
 	result += fmt.Sprintf("%s\n\t", item.Title)
 	result += fmt.Sprintf("(Views: %d - Owner reputation: %d - Answers: %d)\n\n", item.ViewCount, item.Owner.Reputation, item.AnswerCount)
 	return result
 }
 
-func GetQuestionID(item search.Item) int {
-	return item.QuestionID
-}
-
-func QuestionBody(items []search.Item) string {
+func QuestionBody(items []search.Item) (string, error) {
 	var result string
 	for _, item := range items {
 		result += fmt.Sprintf("%s\n", item.Body)
 	}
 	result, err := html2text.FromString(result, html2text.Options{PrettyTables: true})
 	if err != nil {
-		panic(err)
+		return result, err
 	}
-	return result
+	return result, err
 }
 
 func AnswersBodys(items []search.Item) string {

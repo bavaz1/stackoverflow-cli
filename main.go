@@ -32,10 +32,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println()
 
 	chosenQuestion := resp.Items[chosenQuestionLocalID-1]
-	chosenQuestionID := formatter.GetQuestionID(chosenQuestion)
+	chosenQuestionID := chosenQuestion.QuestionID
 
 	params = search.Parameters{
 		Filter: "!9Z(-wwYGT",
@@ -45,10 +44,10 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Print("\033[H\033[2J")
+	formatter.CallClear()
 	fmt.Println("***** THE QUESTION *****\n")
 
-	formatted = formatter.QuestionBody(resp.Items)
+	formatted, _ = formatter.QuestionBody(resp.Items)
 	fmt.Println(formatted)
 
 	params = search.Parameters{
